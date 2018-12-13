@@ -1,0 +1,60 @@
+<h1>I made $1,440 on launch week using just a Google Sheet</h1>
+
+<b>Why I started</b>
+
+<p>I love building new things and sharing them. When I do, my excitement often turns to despair as my betas rarely catch on.
+<br>
+Though I’m ok with this (and I usually learn a ton along the way) I often lament over how much time I had put into building a web app just to test the value prop. Sometimes the prospect of it all going to waste can even be a huge demotivating force during the build.
+<br>
+Regardless, I had always considered it a necessary evil to test my idea. Without really thinking about it, I hadn’t considered that anything less would be a fair test of an idea. Perhaps it was the engineer in me that thought about the technical considerations before what it really took to test a business.</p>
+
+<b>What I built</b>
+
+<p>My latest beau is Catsnatcher — a tool that gives profitability and competitive metrics on 40,000+ highly-specific Amazon categories so that sellers can find the perfect niche.
+<br>
+Having spent months developing the necessary scripts to gather and analyse the info, I finally completed the data stage three weeks ago. I then started to break ground on the web app that would present this data to users.
+<br>
+“If you’re not embarrassed by the first version of your product, you’ve launched too late.” — Reid Hoffman As a lone wolf, I quickly found myself frustrated when dealing with the mundanity of non-value add pieces (pretty much everything on the frontend). I had the data ready, wasn’t that enough for people? The medium wasn’t going to affect people‘s success on Amazon. ‘People don’t pay for buttons’, I told myself after three hours of trying to fix the damn buttons.
+<br>
+Thinking about myself and all the time I had wasted on the presentation of previous betas — I put myself in the shoes of the customer and realised that if I was them, I wouldn’t care how this was given to me. My purchase would depend on the data available and if it serviced my need to be the best Amazon seller. In fact, part of me would probably trust data from a file more than a typical web app.</p>
+
+<p>Following research on the specs and planning what adjustments I’d have to make (more on these below), Google Sheets quickly became the favourite. After all, it includes:
+<ul>
+<li>Data presentation — the well-known tabular format first made famous by excel is easy to navigate and isn’t much worse looking than a custom frame that would have taken days to tweak</li>
+
+<li>Sorting — viewing metrics from highest-to-lowest and vice-versa is very important for analysing Amazon data Filtering — as with the above, people will be searching criteria based on parameters (e.g. rating < 4.2)</li>
+
+<li>Copy protection — data is my product, so if I didn’t use Google Sheets I would have had to install CloudFlare to prevent illicit scraping of my data</li>
+
+<li>Sharing/auth of users — its so easy to add new emails and adjust permissions of existing ones, I can even add people who provide a non-Google email!</li>
+</ul>
+</p>
+<b>What I learned</b>
+
+<p>The new stack would be a Google Sheet that I added people to once they had paid me through my simple static HTML landing page. As I could export directly from PostgreSQL to CSV getting the data in would be as simple as drag and drop; however the remainder of the setup wasn’t all plain sailing.
+<br>
+Although Google Sheets was handling huge chunks of my app stack (data frames, authentication, frontend protection from copy/paste) there were several limitations that simply wouldn’t have been an issue if I had taken those extra weeks to code an app instead:
+<br>
+The maximum allowed cells possible in Sheets is 2M. I needed two sheets — one for the Categories and another for their constituent Item listings. Considering I started out with 40,000 Categories and over 500,000 Items and about 10–15 columns of metrics for each; keeping this many rows would have meant a lot fewer metrics on each to be compliant (no fewer than four for Items, in fact). Instead, I filtered some protected categories and ones I thought were useless to bring it down to 28,000 and instead of showing the top 20 Items for each Category for beta I decided to show just the top five (for a total row count of just over 100,000). This meant I could show off most of the important analyses (columns) I had made for both. I think my final tally of cells was about 1.8M.
+<br>
+User permissions were probably my biggest challenge. I wanted people to be able to explore the data but not make edits, copy or download the data, which meant a regular Edit user option was off limits. View-only ended up being a decent option only because of filter views, which allow viewer users to use Sheets’ sort and filter options without affecting anyone else’s view. I did mess up whilst adding one of my first users and left him as an Edit user for three hours. Thankfully he’s a nice dude and opted not to steal my data or blow shit up. Unfortunately these view-only users do see each other’s Google icons if they use at the same time which is a bit weird, but for now this isn’t a big issue.
+<br>
+Ease of use was definitely not as polished as it would have been in a regular app. The most memorable example I have is that I wasn’t able to link from a niche that a user had shortlisted to jump to the next tab and filter the constituent items that were within that — this would have been possible with a Google Script but there aren’t accessible to view-only users. Instead, I added a tutorial in the welcome email on how to do this manually. I gave users more detail into what each datapoint meant using the notes feature, where if you hover over a cell you can get more insight.
+<br>
+As expected, performance is touchy when you’re at 90% capacity presenting hundreds of megabytes of data to your users. From testing myself, I noticed most of the lag was when initially opening the sheets, particularly the 500,000 row list of Items. I made a note in my email tutorial to give it some time to load initially before using. Although I expected the lag to get worse and worse as I added more users, filter-only views actually helped here, my understanding of how they work suggest that they defer a lot of the work to the user’s computer rather than Google’s compute/memory allocated to a sheet, thus not affecting others’ experience. I’d assume more overhead in scaling Edit users as the changes are seen and saved on everyone’s version of the sheet.
+<br>
+Pricing wasn’t a limitation per se but it was clear that it needed to be more attractive to beta users due to all of the above. I’ll also be gathering feedback from them as I tweak the final draft of v1 in the coming weeks — so its only fair that its a bit cheaper. As it stands I’m charging $60 for two months access to the list ($30/month) and for the full app the fee will be closer to $40-$50/month for access — billed quarterly. I know this won’t suit everyone but I’m looking to build up a cache of serious Amazon Sellers, regardless of their stage in the journey.
+<br>
+Usage and event analytics are super important for a new product —not only for informing the features in the full build but also for ensuring people use it and keep using it long enough to give meaningful feedback. Unfortunately there really is no way to track this in Sheets. I’ve overcome this by reaching out a little bit more to my users than is necessary to check that everything is going ok or if they have any issues.
+<br>
+My product has no free trial, so people have to make their judgement to sign up based on what I say and show on my landing page. I figured this might be troublesome as I’d just be showing them a screenshot of a Google Sheet alongside a promise that it could help them be more successful. Part of me expected laughter when people saw a $60 price tag on a Google Sheet. Thankfully they saw past the wallpaper (see below). On balance, I feel it was still worth it — anything major outlined above was either overcome or just wasn’t as important to the end users or getting access to the data.</p>
+
+<b>Launch</b>
+
+<p>Though nervous about the my light stack I decided that data was worth it so I’d charge $60 for two month’s beta access. Last week I launched on Product Hunt and I got several paying users within hours, and many more newsletter signups! I followed this up with a BetaList launch and have more targeted stuff scheduled for the coming week. The plan is to continue adding users to the Sheet and get their feedback as I build out the full app on the side.
+<br>
+Despite being only part of the way through, I can say with confidence that its by far the best launch I’ve ever had (in far less time)!
+<br>
+I am almost certain this is a result of outsourcing the app to Google Sheets and thus having more time to focus on messaging, sharing and nurturing new customers. This is important. Use your newly-freed time wisely. In my previous launches, I had put all my energy into the app, pasted the link and hoped for the best. As much as it pains the engineer in me to say it, this stuff is the life and soul of a business.</p>
+
+<em>Feel free to reach out on Twitter if you’re thinking of running a product beta on Sheets. Also (shameless plug), if you are an Amazon seller or considering becoming one, check out the Catsnatcher beta file to find your perfect high-profit, low competition niche!</em>
